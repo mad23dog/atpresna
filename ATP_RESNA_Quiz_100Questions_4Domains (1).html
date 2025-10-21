@@ -1,0 +1,2047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATP RESNA Advanced Exam Review</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+        }
+
+        .progress-container {
+            background: #f5f5f5;
+            padding: 20px 30px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 25px;
+            background: #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .quiz-area {
+            padding: 30px;
+        }
+
+        .question-card {
+            margin-bottom: 30px;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .question-number {
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .category-badge {
+            background: #f0f0f0;
+            color: #666;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .question-text {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .option.selected {
+            border-color: #667eea;
+            background: #e8eeff;
+        }
+
+        .option.correct {
+            border-color: #4caf50;
+            background: #e8f5e9;
+        }
+
+        .option.incorrect {
+            border-color: #f44336;
+            background: #ffebee;
+        }
+
+        .option-letter {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .option.correct .option-letter {
+            background: #4caf50;
+        }
+
+        .option.incorrect .option-letter {
+            background: #f44336;
+        }
+
+        .explanation {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff9e6;
+            border-left: 4px solid #ffc107;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+        }
+
+        .explanation-title {
+            font-weight: bold;
+            color: #f57c00;
+            margin-bottom: 8px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #666;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .results {
+            text-align: center;
+            padding: 40px 30px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .score-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .score-number {
+            font-size: 48px;
+            font-weight: bold;
+        }
+
+        .score-label {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .results h2 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .results-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .breakdown-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .breakdown-label {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .breakdown-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .category-selection {
+            padding: 30px;
+            display: none;
+        }
+
+        .category-selection.show {
+            display: block;
+        }
+
+        .category-selection h2 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .category-option {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .category-option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+            transform: translateY(-2px);
+        }
+
+        .category-option.selected {
+            border-color: #667eea;
+            background: #e8eeff;
+        }
+
+        .category-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .category-count {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .start-screen {
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .start-screen h2 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .mode-selection {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 500px;
+            margin: 0 auto 30px;
+        }
+
+        .mode-button {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .mode-button:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .mode-button h3 {
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .mode-button p {
+            color: #666;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .question-text {
+                font-size: 16px;
+            }
+            
+            .button-container {
+                flex-direction: column;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ATP RESNA Advanced Exam Review</h1>
+            <p>Challenging Practice Questions - Official Exam Level</p>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill">0%</div>
+            </div>
+            <div class="progress-text">
+                <span>Question <span id="currentQ">0</span> of <span id="totalQ">50</span></span>
+                <span>Score: <span id="score">0</span> / <span id="attempted">0</span></span>
+            </div>
+        </div>
+
+        <div class="start-screen" id="startScreen">
+            <h2>Welcome to ATP RESNA Advanced Practice Test</h2>
+            <div class="mode-selection">
+                <div class="mode-button" onclick="startAllQuestions()">
+                    <h3>📚 Practice All Questions</h3>
+                    <p>Test yourself on all 100 questions across all categories</p>
+                </div>
+                <div class="mode-button" onclick="showCategorySelection()">
+                    <h3>🎯 Select Categories</h3>
+                    <p>Choose specific categories to focus your practice</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-selection" id="categorySelection">
+            <h2>Select Categories to Practice</h2>
+            <p style="text-align: center; color: #666; margin-bottom: 20px;">Click to select one or more categories</p>
+            <div class="category-grid" id="categoryGrid">
+                <!-- Categories will be inserted here -->
+            </div>
+            <div class="button-container">
+                <button class="btn-secondary" onclick="backToStart()">← Back</button>
+                <button class="btn-primary" id="startCategoryBtn" onclick="startSelectedCategories()">Start Practice</button>
+            </div>
+        </div>
+
+        <div class="quiz-area" id="quizArea">
+            <!-- Questions will be inserted here -->
+        </div>
+
+        <div class="results" id="results">
+            <!-- Results will be shown here -->
+        </div>
+    </div>
+
+    <script>
+        const questionBank = [
+{
+                category: "Implementation of Intervention",
+                question: "A 3-year-old child is being introduced to an assistive device. To ensure the child is motivated to use the device during its trial, the professional should:",
+                options: [
+                    "Give detailed instruction before the device is used",
+                    "Limit experiences that may result in failure",
+                    "Provide an isolated environment to reduce risk of embarrassment",
+                    "Encourage opportunities for exploration"
+                ],
+                correct: 3,
+                explanation: "Young children learn best through exploration and play. Encouraging exploration allows the child to discover the device's capabilities naturally, which increases motivation and ownership. Detailed instruction (A) may overwhelm a young child, limiting failure (B) prevents valuable learning opportunities, and isolation (C) removes important social learning contexts."
+            },
+{
+                category: "Assessment of Need",
+                question: "A 25-year-old male with C5-C6 quadriplegia undergoes an evaluation for a wheelchair. During the transfer, his skin becomes sweaty and clammy, he complains of a headache, and has goose bumps on his arms. Which of the following is the most likely cause?",
+                options: [
+                    "Heart attack",
+                    "Stroke",
+                    "Autonomic dysreflexia",
+                    "Hypertension"
+                ],
+                correct: 2,
+                explanation: "Autonomic dysreflexia is a medical emergency common in individuals with spinal cord injuries at T6 or above. Symptoms include sweating, clammy skin, headache, and piloerection (goose bumps). It's typically triggered by noxious stimuli below the level of injury. Immediate intervention is required to identify and remove the trigger."
+            },
+{
+                category: "Assessment of Need",
+                question: "A consumer is referred for problems related to poor head and neck control when seated in his wheelchair. Which body part should the professional examine FIRST?",
+                options: [
+                    "Head",
+                    "Torso",
+                    "Pelvis",
+                    "Feet"
+                ],
+                correct: 2,
+                explanation: "Seating assessment follows a proximal-to-distal approach. The pelvis is the foundation of seated posture. Without proper pelvic positioning and stability, it's impossible to adequately address head and neck control. The assessment should proceed from pelvis → torso → head."
+            },
+{
+                category: "Assessment of Need",
+                question: "During an AT assessment, the first step should be to ask about:",
+                options: [
+                    "Medical history",
+                    "Consumer and family goals",
+                    "Funding sources",
+                    "Cognitive and sensory status"
+                ],
+                correct: 1,
+                explanation: "Person-centered practice dictates that the consumer's and family's goals should drive the assessment process. Understanding what the consumer wants to accomplish ensures the technology recommended will be meaningful and used. Medical history, funding, and clinical factors are all important but secondary to establishing goals."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "A person with a loss of executive functioning will have the most difficulty with the cognitive processes of:",
+                options: [
+                    "Memorizing dates for a quiz",
+                    "Reciting a list of numbers",
+                    "Signing their name",
+                    "Self-monitoring"
+                ],
+                correct: 3,
+                explanation: "Executive functioning involves higher-order cognitive processes including planning, organization, self-monitoring, working memory, and inhibition. Self-monitoring requires metacognitive awareness and regulation. The other options involve memory (A, B) or motor learning (C) rather than executive function."
+            },
+{
+                category: "Assessment of Need",
+                question: "Which of the following instruments is commonly used to assess mobility status in older adults?",
+                options: [
+                    "Katz Index of Activities of Daily Living",
+                    "Thomas test for hip range",
+                    "Functional Independence Measure",
+                    "Timed Up and Go (TUG) test"
+                ],
+                correct: 3,
+                explanation: "The Timed Up and Go (TUG) test is specifically designed to assess mobility and fall risk in older adults. The Katz Index (A) assesses ADL independence broadly, the Thomas test (B) measures hip flexor tightness, and FIM (C) measures disability severity across multiple domains but isn't mobility-specific."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "A consumer can access a standard keyboard, but his fingers drag and hit multiple keys. He has good gross motor control of the upper extremities but limited fine motor control. Which recommendation would improve the consumer's speed and accuracy?",
+                options: [
+                    "Scanning software",
+                    "Speech output",
+                    "Word prediction/abbreviation expansion",
+                    "On-screen keyboard"
+                ],
+                correct: 2,
+                explanation: "Word prediction and abbreviation expansion software reduces the number of keystrokes needed, which addresses both the accuracy issue (fewer key presses = fewer errors) and speed issue. Scanning (A) would actually slow him down since he can already access keys. The question asks about improving keyboard usage specifically, not replacing it."
+            },
+{
+                category: "Assessment of Need",
+                question: "A 23-year-old male with Duchenne muscular dystrophy can no longer use a standard wheelchair joystick or computer mouse. After trial, he can functionally use a fiber optic array for driving his wheelchair and controlling seat functions. Before ordering, it is most important to explore:",
+                options: [
+                    "The funding sources available to him",
+                    "The tasks he needs to accomplish",
+                    "His function in his previous wheelchair",
+                    "The amount of personal assistance available to him"
+                ],
+                correct: 1,
+                explanation: "With progressive conditions like DMD, it's critical to understand all current and future tasks the consumer needs to accomplish. Since the fiber optic array can control multiple systems, comprehensive activity analysis ensures the system will meet all his needs (wheelchair, computer, environmental control, etc.). This prevents the need for multiple access methods."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "Which of the following factors contributes MOST to the development of pressure injuries?",
+                options: [
+                    "Excessive moisture",
+                    "Muscle spasticity",
+                    "Tactile sensitivity",
+                    "Decreased skin temperature"
+                ],
+                correct: 0,
+                explanation: "Moisture is a critical factor in pressure injury development because it softens the skin (maceration), reduces the skin's tolerance to pressure and shear forces, and increases friction. While pressure and shear are primary causes, moisture significantly accelerates tissue breakdown. Spasticity (B) can contribute through increased friction, but moisture is more directly causative."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "What stage of processing has the greatest effect on reaction time in an individual with apraxia?",
+                options: [
+                    "Sensory reception",
+                    "Neural transmission to the central nervous system",
+                    "Cognitive processing in the central nervous system",
+                    "Neural transmission to the muscle"
+                ],
+                correct: 2,
+                explanation: "Apraxia is a motor planning disorder caused by CNS damage. The primary deficit is in cognitive processing—specifically motor planning and sequencing. People with apraxia know what they want to do and have intact peripheral systems, but cannot plan and execute the motor sequence. CNS processing time is typically 70-300 ms in unimpaired individuals but is significantly prolonged in apraxia."
+            },
+{
+                category: "Implementation of Intervention",
+                question: "Manufacturers of commercially available products are responsible for which of the following?",
+                options: [
+                    "Product defects and warranty",
+                    "Failures from wear and use",
+                    "Personal injury when the device is used in a manner it was not designed for",
+                    "Product use through the user's lifetime"
+                ],
+                correct: 0,
+                explanation: "Manufacturers are legally responsible for product defects and must honor warranty terms. They are NOT responsible for normal wear and tear (B), misuse of products (C), or lifetime use beyond the expected useful life (D). Understanding liability helps ATPs provide appropriate consumer education and set realistic expectations."
+            },
+{
+                category: "Implementation of Intervention",
+                question: "During implementation, a consumer states he does not want the solid seat insert that was recommended at evaluation. The clinician encourages its use but the consumer refuses. The implementation documentation should include:",
+                options: [
+                    "A list of only the items issued, omitting the solid seat insert",
+                    "A list of all items originally recommended including the solid seat insert",
+                    "A list of all items originally recommended with notes supporting the benefits of the solid seat insert",
+                    "A list of only items issued with a note that the client refused installation of the solid seat insert"
+                ],
+                correct: 3,
+                explanation: "Documentation must accurately reflect what was delivered AND document informed refusal. Option D protects the clinician legally, respects client autonomy, and maintains accurate records. Simply omitting the item (A) or listing unfunded items (B, C) creates confusion about what was actually delivered and doesn't document the informed refusal."
+            },
+{
+                category: "Evaluation of Intervention",
+                question: "One year after purchasing a lift for loading a manual wheelchair into a minivan, a consumer finds a scooter is more appropriate for college. She now needs a new lift. Which of the following would have prevented the need to change lifts?",
+                options: [
+                    "Educating the consumer about the benefits of power mobility",
+                    "Encouraging the consumer to invest in a higher-end lift package",
+                    "Consulting with the college advisor about wheelchair suitability",
+                    "Exploring short- and long-term goals with the consumer"
+                ],
+                correct: 3,
+                explanation: "Thorough exploration of both short- and long-term goals during the initial assessment would have revealed future mobility needs and allowed for selection of a lift compatible with multiple device types. This is a core principle of AT assessment—considering how needs may evolve over time, especially for young people transitioning through life stages."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "An employer reports an employee is not consistently using a prescribed device to prevent falling at work. The employee states the device doesn't fit through the lavatory door and the employer refuses modifications. The appropriate first step is:",
+                options: [
+                    "Evaluate the consumer's skill in using the device at the lavatory door",
+                    "Work with the employer to modify the lavatory door",
+                    "Explore methods of bladder control while at work",
+                    "Recommend a smaller device that can fit through the existing lavatory door"
+                ],
+                correct: 0,
+                explanation: "Before making any recommendations or modifications, the ATP must first assess the actual situation and the consumer's skills. The employee may lack training in maneuvering through doorways, or there may be technique adjustments that eliminate the problem. Only after this assessment can appropriate solutions be identified."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "A wheelchair supplier orders components for a client's wheelchair. After 3 weeks, one item is on backorder for 3 more weeks. The client expected delivery within 4 weeks. The supplier's first step should be to:",
+                options: [
+                    "Contact the purchasing department about the ordering process",
+                    "Contact the manufacturer to speak with a supervisor about the backordered item",
+                    "Contact the client to report the delay and ensure short-term needs can be met",
+                    "Contact the client's third-party payor to report the delay"
+                ],
+                correct: 2,
+                explanation: "Client communication and safety are the highest priorities. The supplier must immediately inform the client of the delay and assess whether their needs can be met in the interim, possibly through loaner equipment or temporary solutions. Only after ensuring client safety should administrative actions (A, B, D) be pursued."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "Which of the following types of ramp is the best option for a tenant with a short-term rental lease who wants independent access to a unit with four steps or a 32-inch vertical rise?",
+                options: [
+                    "Modular",
+                    "Threshold",
+                    "Portable",
+                    "Perforated"
+                ],
+                correct: 0,
+                explanation: "Modular ramps are semi-permanent, can be disassembled and moved, and are appropriate for multi-step access with significant vertical rise. They're ideal for rental situations. Threshold ramps (B) are only for small height changes (typically ≤2 inches). Portable ramps (C) are not safe for 32-inch rises and are meant for temporary use. Perforated (D) refers to decking material, not a ramp type."
+            },
+{
+                category: "Assessment of Need",
+                question: "A student with muscular dystrophy is having difficulty taking lecture notes due to decreasing upper extremity strength. The most appropriate site to conduct an evaluation is:",
+                options: [
+                    "At a pediatric hospital with the involvement of the student's physician",
+                    "At an assistive technology demonstration center",
+                    "At school with the involvement of the IEP team",
+                    "At home where family can provide the most input"
+                ],
+                correct: 2,
+                explanation: "For school-related tasks, evaluation should occur in the natural environment (school) with the IEP team involved. This ensures the assessment addresses educational access, complies with IDEA requirements, and allows observation of the actual task in context. The IEP team's involvement ensures appropriate educational supports are identified and documented."
+            },
+{
+                category: "Evaluation of Intervention",
+                question: "Extensive resources have been used over three years to provide a computer and software to a young child with multiple disabilities. Parents think progress would be enhanced by new alternate-access software they saw online. The appropriate next step is to:",
+                options: [
+                    "Change to the new software and initiate training",
+                    "Recommend continued training and practice with the existing technology",
+                    "Discuss whether the parents' goals are realistic given the child's abilities",
+                    "Develop measurable outcomes for realistic progress and success for a trial with the new technology"
+                ],
+                correct: 3,
+                explanation: "This balances evidence-based practice with family input. Developing measurable outcomes for a trial (D) allows objective evaluation of whether the new software improves performance, respects the parents' input, and prevents abandonment of proven technology without data. Simply changing (A) wastes previous investment; dismissing parents' ideas (B, C) damages the team relationship."
+            },
+{
+                category: "Implementation of Intervention",
+                question: "A supplier's primary role in the delivery of an AAC device is to:",
+                options: [
+                    "Train the consumer to communicate using the device",
+                    "Provide instructions on how to use the device",
+                    "Train the consumer in troubleshooting",
+                    "Program the device"
+                ],
+                correct: 3,
+                explanation: "The supplier's primary technical role is device programming (setting up vocabulary, access methods, outputs, etc.). Communication training (A) is the role of the SLP. Operational training (B) and troubleshooting (C) are typically shared responsibilities between suppliers and clinicians, but programming is the supplier's distinct primary responsibility."
+            },
+{
+                category: "Implementation of Intervention",
+                question: "When delivering a new manual wheelchair to a consumer, the most important first step is to:",
+                options: [
+                    "Visually inspect the home for accessibility",
+                    "Fit and adjust the system to the consumer",
+                    "Provide information on care of the equipment",
+                    "Train the consumer in the use of the equipment"
+                ],
+                correct: 1,
+                explanation: "Proper fit is the foundation for all other aspects of wheelchair use. Before training, education, or environmental assessment, the wheelchair must be correctly adjusted to the consumer to ensure safety, function, and comfort. Without proper fit, training would be teaching incorrect techniques and could cause injury."
+            },
+{
+                category: "Implementation of Intervention",
+                question: "A professional is training a 10-year-old with ADHD to use an augmentative communication device. The most appropriate training strategy is:",
+                options: [
+                    "Get the child's full attention through eye contact and repeated requests to quiet her body",
+                    "Use as few breaks as possible to shorten overall training time",
+                    "Regularly include a peer in the training",
+                    "Incorporate movement into the training and allow fidgeting"
+                ],
+                correct: 3,
+                explanation: "Children with ADHD benefit from training that accommodates their need for movement. Forcing stillness is counterproductive. Incorporating movement and allowing fidgeting actually improves attention and learning. Demanding eye contact and stillness (A), minimizing breaks (B), or relying on peer pressure (C) all conflict with evidence-based ADHD interventions."
+            },
+{
+                category: "Professional Conduct",
+                question: "Which teaching strategy would best enable a consumer to independently and efficiently use a new communication device?",
+                options: [
+                    "Present task components at the consumer's cognitive level with auditory cues",
+                    "Teach the same skill sequence in short weekly training sessions for repeated practice",
+                    "Provide routine drills and practice at a clinic",
+                    "Provide physical, auditory, and visual cues as needed with gradual fading of cues"
+                ],
+                correct: 3,
+                explanation: "Systematic instruction with gradual fading of prompts is the gold standard for teaching complex skills. This approach promotes independence by providing support initially and systematically withdrawing it as competence develops. Clinic-only training (C) doesn't generalize well, and infrequent sessions (B) don't provide enough practice intensity."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "An IEP team is developing an implementation plan for a middle school student using a personal computer. Which activities would best introduce the computer use?",
+                options: [
+                    "Activities which are academically challenging",
+                    "Activities which are motivating and cannot be accomplished independently using other tools",
+                    "Activities which require only occasional device use and are easy to complete",
+                    "Activities which are equally distributed between subjects and allow performance measurement"
+                ],
+                correct: 1,
+                explanation: "Initial implementation should focus on activities where the device provides clear advantage and success is likely. Motivating activities that can ONLY be accomplished with the technology demonstrate its value and build user confidence. Starting with challenging tasks (A) risks frustration; occasional use (C) doesn't establish routines; distributed use (D) is a later-stage consideration."
+            },
+{
+                category: "Evaluation of Intervention",
+                question: "A follow-up program is necessary over the first several months after device delivery because:",
+                options: [
+                    "Most devices fail within the first year of use",
+                    "Maintenance issues will need to be addressed to ensure the device works properly",
+                    "Most consumers need modifications due to worsening of their condition",
+                    "Extended use may reveal additional training needs or modification opportunities"
+                ],
+                correct: 3,
+                explanation: "Follow-up reveals issues that only become apparent with extended real-world use: new training needs, refinement opportunities, or contextual barriers. This isn't primarily about device failure (A), routine maintenance (B), or condition changes (C), though those can occur. It's about optimization through actual use experience."
+            },
+{
+                category: "Implementation of Intervention",
+                question: "A computer has been adapted with an enlarged keyboard and word prediction for a student's lack of fine motor control. He wants to operate the on-switch independently. The best solution is:",
+                options: [
+                    "Infrared environmental control unit",
+                    "The addition of an alternate external switch",
+                    "Leaving the computer on all the time",
+                    "The use of a power strip"
+                ],
+                correct: 1,
+                explanation: "An alternate external switch (large button, proximity sensor, etc.) mounted accessibly allows independent operation of the on/off function. An ECU (A) is overly complex for this simple need. Leaving the computer on (C) isn't energy efficient and doesn't promote independence. A power strip (D) still requires accessing a small button."
+            },
+{
+                category: "Implementation of Intervention",
+                question: "After installing a new workstation, the supplier is responsible for providing the consumer with:",
+                options: [
+                    "The manufacturer representative's contact information",
+                    "Maintenance instructions",
+                    "A tool kit for making repairs",
+                    "A service agreement"
+                ],
+                correct: 1,
+                explanation: "The supplier must provide maintenance instructions so the consumer can perform routine care and understand what requires professional service. Manufacturer contact (A) may be helpful but isn't the supplier's primary responsibility. Tool kits (C) aren't standard for consumers. Service agreements (D) are contractual arrangements, not a delivery requirement."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "The first step to preserve a device from being damaged by a user's saliva is:",
+                options: [
+                    "Oral motor therapy to increase swallowing efficiency",
+                    "Use of a protective cover",
+                    "Use of an anti-saliva medication",
+                    "Removal of the salivary gland"
+                ],
+                correct: 1,
+                explanation: "The least invasive, most practical solution is a protective cover (moisture guard, shield, etc.). This immediately protects the device while other interventions are considered. Oral motor therapy (A) takes time and may not fully resolve the issue. Medications (C) and surgery (D) are medical interventions with risks and should only be considered after functional approaches fail."
+            },
+{
+                category: "Implementation of Intervention",
+                question: "A professional is teaching an older adult with diabetic retinopathy to use a computer. The consumer learns well but keeps losing track of the pointer. The most appropriate first alternative is:",
+                options: [
+                    "Activate one of the pointer visibility options in the mouse control panel",
+                    "Use a different mouse option such as a trackball",
+                    "Use speech recognition to control mouse movement",
+                    "Trial screen magnification software"
+                ],
+                correct: 0,
+                explanation: "Start with the simplest, least intrusive solution: built-in accessibility features like pointer trails, larger pointers, or high-contrast pointers. These are free, easy to implement, and don't require learning new interfaces. Only if these fail should more complex solutions (B, C, D) be considered—following the principle of least restrictive/most normalized intervention."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "Consistent switch placement to operate a device is essential to develop:",
+                options: [
+                    "Hand-eye coordination",
+                    "Accurate motor and scanning skills",
+                    "Visual perceptual skills",
+                    "Improved range of motion"
+                ],
+                correct: 1,
+                explanation: "Consistent switch placement creates motor memory and allows the user to develop accurate, reliable access. For scanning users, consistent placement is critical for timing and accuracy. While hand-eye coordination (A) may improve secondarily, the primary goal is reliable access and motor learning. It doesn't directly address visual perception (C) or increase ROM (D)."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "A consumer with T12 paraplegia shares a bathroom with three teenage children. The individual can transfer independently and use a hand-held shower. The appropriate recommendation is:",
+                options: [
+                    "Diagonal grab bar",
+                    "Bathtub lift",
+                    "Bath bench",
+                    "Rolling shower chair"
+                ],
+                correct: 2,
+                explanation: "A bath bench provides safe, stable seating for showering and is appropriate for someone who can transfer independently. It's the least expensive, most practical solution that doesn't significantly impact family members' use. A grab bar (A) alone doesn't provide seating. A lift (B) is unnecessary for independent transfers. A rolling chair (D) is more expensive and complex than needed."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "An advantage of a wheelchair with small front casters rather than large front casters for a consumer with knee flexion contractures is that small front casters:",
+                options: [
+                    "Roll better in sand",
+                    "Provide smoother ride over obstacles",
+                    "Offer greater clearance for feet",
+                    "Improve stability for forward leaning"
+                ],
+                correct: 2,
+                explanation: "Small casters sit lower and provide more clearance between the footrest and casters, accommodating knee flexion contractures. Large casters (which ride higher) would interfere with contracted knees. The trade-offs are that large casters actually roll better over obstacles (B), in sand (A), and provide better stability (D)."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "A consumer with dysarthria using a communication device exhibits slow input rate. Which software application would best accelerate text entry?",
+                options: [
+                    "Optical character recognition",
+                    "Joystick driver",
+                    "Word prediction",
+                    "Speech recognition"
+                ],
+                correct: 2,
+                explanation: "Word prediction software anticipates the word being typed and offers choices, reducing the number of selections needed. This is ideal for slow input due to motor limitations. OCR (A) is for digitizing printed text. Joystick drivers (B) are interface software. Speech recognition (D) wouldn't work well with dysarthria, which affects speech clarity."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "When evaluating the impact of a speech-generating device on a consumer's life, the most important factor to consider is:",
+                options: [
+                    "The amount of vocabulary programmed into the device memory",
+                    "The attitudes of strangers about the device",
+                    "The amount of support and training needed to use the device",
+                    "The degree to which the device helps with expressing needs"
+                ],
+                correct: 3,
+                explanation: "The ultimate measure of an SGD's impact is functional communication—whether it enables the person to express their needs, wants, and thoughts. This is the core purpose. Vocabulary amount (A), stranger attitudes (B), and training needs (C) are secondary considerations that should serve the primary goal of functional communication."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "In order to reduce force required to operate a wheelchair joystick, an extension post is added to the shaft. Which might be an additional effect of this modification?",
+                options: [
+                    "Increased deflection of the joystick is required to get the same speed",
+                    "Increased stability of the joystick post",
+                    "Increased wheelchair acceleration",
+                    "Decreased risk of damaging the joystick mechanism"
+                ],
+                correct: 2,
+                explanation: "Adding length to a joystick creates a longer lever arm, which increases mechanical advantage. This reduces required force BUT also means that the same angular deflection creates more movement at the control point, potentially resulting in increased acceleration/sensitivity. The post becomes LESS stable (not B), and the mechanism has INCREASED risk of damage (not D) from greater torque."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "A 66-year-old consumer with Parkinson's disease has a shuffling gait and many falls. Her physician refers her for a power wheelchair. The professional should trial a power wheelchair with which programming adjustment?",
+                options: [
+                    "Short throw",
+                    "Increased stopping speed",
+                    "Tremor dampening",
+                    "Increased torque"
+                ],
+                correct: 2,
+                explanation: "Tremor dampening filters out small, rapid joystick movements caused by tremor, allowing only sustained inputs to control the chair. This is essential for Parkinson's patients who have resting and action tremors. Short throw (A) and increased stopping speed (B) would make the chair harder to control. Increased torque (D) relates to power, not tremor management."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "What is the best mode of transmission for an EADL that controls a distant device such as a garage door opener?",
+                options: [
+                    "House wiring",
+                    "Ultrasonic transmission",
+                    "Infrared transmission",
+                    "Radio frequency transmission"
+                ],
+                correct: 3,
+                explanation: "Radio frequency (RF) transmission can penetrate walls and work over long distances, making it ideal for garage door openers. House wiring (A) requires line-of-sight or direct connection. Ultrasonic (B) has limited range. Infrared (C) requires line-of-sight and won't work through walls or over long distances."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "A consumer can access a standard keyboard but his fingers drag and hit multiple keys. He has good gross motor control but limited fine motor control. The appropriate recommendation to improve keyboard usage is:",
+                options: [
+                    "Keyboard with keyguard",
+                    "Mini keyboard",
+                    "One-handed keyboard",
+                    "Ergonomic keyboard"
+                ],
+                correct: 0,
+                explanation: "A keyguard places a physical template over the keyboard with holes for each key, preventing accidental key presses from dragging fingers while allowing direct selection. A mini keyboard (B) would make targeting harder. One-handed keyboards (C) don't address the dragging issue. Ergonomic keyboards (D) address posture, not accuracy."
+            },
+{
+                category: "Evaluation of Intervention",
+                question: "Which of the following is a primary factor in the abandonment of assistive technology?",
+                options: [
+                    "Pressure for use from the consumer's family",
+                    "Impatience with the device",
+                    "Device is not optimal in all environments",
+                    "Consumer's lack of involvement in the selection process"
+                ],
+                correct: 3,
+                explanation: "Research consistently shows that lack of user involvement in device selection is a primary predictor of abandonment. When consumers aren't part of the decision-making process, devices may not match their priorities, lifestyle, or goals. The other factors contribute to abandonment but are less central than lack of user involvement."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "The primary role of a supplier in transdisciplinary assessment of a consumer's seating and mobility needs is to:",
+                options: [
+                    "Conduct a MAT evaluation",
+                    "Determine the medical justification for equipment selected",
+                    "Provide information about available technologies",
+                    "Supervise equipment trials"
+                ],
+                correct: 2,
+                explanation: "In a transdisciplinary team, each member contributes their unique expertise. The supplier's primary contribution is technical knowledge about available products, features, options, and compatibilities. MAT evaluations (A) are clinical assessments. Medical justification (B) is the clinician's role. Equipment trials (D) are collaborative, not supplier-supervised."
+            },
+{
+                category: "Implementation of Intervention",
+                question: "A supplier and school PT completed a wheelchair evaluation before summer. It was purchased through private insurance and ordered during summer break. The PT requested to be present at delivery. During summer, the family asks the supplier to deliver immediately. The supplier should:",
+                options: [
+                    "Comply with the family and deliver the wheelchair",
+                    "Set up a first fitting with the family",
+                    "Call the PT and tell her the family is requesting delivery",
+                    "Tell the family they must wait until the beginning of the next school year"
+                ],
+                correct: 2,
+                explanation: "The PT's involvement was requested because of her clinical expertise in fitting the system. The supplier should contact the PT to discuss options—perhaps the PT can arrange to be present during summer, or can provide guidance for the supplier. This respects professional roles and ensures proper fitting while being responsive to family needs."
+            },
+{
+                category: "Professional Conduct",
+                question: "A professional is called for an opinion on environmental controls for safety and independence in the home but is unfamiliar with several types and choices. The professional should:",
+                options: [
+                    "Research devices on the internet and make recommendations",
+                    "Refer to another professional with EADL expertise",
+                    "Contact manufacturers and set up demonstrations",
+                    "Recommend devices he has experience with"
+                ],
+                correct: 1,
+                explanation: "Professional ethics require practitioners to practice within their scope of competence. When unfamiliar with a critical area like EADLs for safety, referral to an expert is appropriate. Internet research (A) doesn't provide sufficient expertise for safety-critical applications. Setting up demos (C) without expertise risks inappropriate selection. Limiting to familiar devices (D) may not meet client needs."
+            },
+{
+                category: "Evaluation of Intervention",
+                question: "Successful use of assistive technology in a work setting means that the consumer:",
+                options: [
+                    "Can perform essential job functions with 80% accuracy over 10 consecutive trials in clinical settings",
+                    "Can perform essential job functions productively and safely",
+                    "Can perform essential job functions consistently with appropriate supports by certified therapists",
+                    "Can fully operate an assistive technology device"
+                ],
+                correct: 1,
+                explanation: "Work accommodation success is defined by the ability to perform essential job functions safely and productively in the actual work environment. Clinical performance (A) doesn't predict workplace success. Requiring ongoing therapist support (C) isn't sustainable or necessary. Full device operation (D) isn't required if adequate supports are in place."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "In general, the preferred method for evaluating the results of an assistive technology device trial is:",
+                options: [
+                    "Satisfaction survey",
+                    "Outcome measure",
+                    "Skilled observation",
+                    "Activity monitoring"
+                ],
+                correct: 1,
+                explanation: "Outcome measures provide objective, quantifiable data about functional performance changes. While satisfaction (A), observation (C), and activity monitoring (D) provide valuable information, standardized outcome measures allow for comparison over time and across individuals, and provide evidence for effectiveness and funding justification."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "A consumer returns to a shared workstation in a manual wheelchair after an injury. Which provides the most reasonable accommodation?",
+                options: [
+                    "Raise the work surface to elevated height and provide a standing wheelchair",
+                    "Raise the work surface for accessibility and provide adjustable-height chair and foot support for coworkers",
+                    "Install an adjustable-height work surface",
+                    "Install small wheels and casters to permit the chair to fit under the work surface"
+                ],
+                correct: 2,
+                explanation: "An adjustable-height work surface accommodates everyone—the wheelchair user and all coworkers. This is the ADA's 'universal design' principle: modifications that benefit the individual with a disability without disadvantaging others. The other options either exclude coworkers (A, B) or don't fully address height adjustability needs (D)."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "Even with careful evaluation, providing a backup plan or device is important because:",
+                options: [
+                    "A secondary method of accomplishing a task is available if the first fails",
+                    "The primary device may be too complicated for the user to use effectively",
+                    "The user will need time to get used to a new device",
+                    "The new device may not be allowed in school or work environments"
+                ],
+                correct: 0,
+                explanation: "Backup systems ensure continuity of function when the primary system fails (due to breakdown, battery depletion, forgotten device, etc.). This is critical for essential functions like communication or mobility. If the primary device is too complicated (B), it shouldn't have been selected. Options C and D describe implementation issues, not reasons for backups."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "A consumer would like to do a comparative assessment on two devices. What is the role of the assistive technology professional in the selection process?",
+                options: [
+                    "Research on the validity and reliability of the selected tools",
+                    "Literature review of research results on options selected",
+                    "Elimination of options that are not available locally",
+                    "Evaluation of the client's performance in various environments"
+                ],
+                correct: 3,
+                explanation: "The ATP's primary role in device comparison is evaluating the consumer's actual performance with each device across relevant environments and activities. This provides functional data for decision-making. Validity/reliability research (A) and literature reviews (B) inform recommendations but don't substitute for client-specific performance data. Local availability (C) is a practical consideration but shouldn't eliminate options prematurely."
+            },
+{
+                category: "Implementation of Intervention",
+                question: "What is important to incorporate in a seating system for a 68-year-old consumer who has a fixed kyphotic posture?",
+                options: [
+                    "Lumbar pad",
+                    "Tilt-in-space",
+                    "Shoulder straps",
+                    "Chest strap"
+                ],
+                correct: 1,
+                explanation: "A fixed kyphotic posture (forward curvature of the spine) cannot be corrected with positioning. Tilt-in-space allows the entire seating system to recline while maintaining the seated posture, preventing sliding forward and redistributing pressure without forcing spinal extension. A lumbar pad (A) would push against the deformity uncomfortably. Straps (C, D) would create pressure points and discomfort."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "A child uses a manual wheelchair and can sit independently. She can transfer to an approved child safety seat for transport. The safest method of transport in a minivan is:",
+                options: [
+                    "Stay in wheelchair facing sideways with four-point wheelchair tiedown straps",
+                    "Stay in wheelchair facing forward with crash-tested seatbelt",
+                    "Transfer to approved child safety seat with vehicle seatbelt system",
+                    "Transfer to lightweight, crash-tested stroller with four-point tie-down straps"
+                ],
+                correct: 2,
+                explanation: "The safest option is always a crash-tested, age-appropriate child safety seat properly installed using the vehicle's seatbelt system. Manual wheelchairs, even with tie-downs, are not designed to withstand crash forces as well as purpose-built car seats. Since the child can transfer, there's no reason to accept the additional risk of wheelchair transportation."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "What is the threshold for a person being tested by pure tone audiometry?",
+                options: [
+                    "The frequency in kilohertz at which the person hears the tone 50 percent of the time",
+                    "The intensity in decibels at which the person hears the tone 50 percent of the time",
+                    "6.5 dB at 1000 Hz",
+                    "The point at which the person understands speech presented at various frequencies"
+                ],
+                correct: 1,
+                explanation: "The audiometric threshold is the softest intensity (in decibels) at which a person can detect a pure tone 50% of the time at a given frequency. Frequency (A) is controlled by the examiner; threshold measures intensity. Option C is arbitrary. Speech understanding (D) is tested separately with speech audiometry, not pure tone testing."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "Powered mobility can be considered an option for children with disabilities as young as:",
+                options: [
+                    "2 years old",
+                    "4 years old",
+                    "6 years old",
+                    "10 years old"
+                ],
+                correct: 0,
+                explanation: "Research supports powered mobility for children as young as 12-24 months when they show readiness through cause-and-effect understanding and motivation to explore. Early powered mobility supports cognitive, social, and emotional development. The key is readiness, not age. Waiting until traditional ages (B, C, D) delays critical developmental opportunities."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "During mat assessment, you observe that a client can sit hands-free on the mat. This finding primarily indicates:",
+                options: [
+                    "The client requires minimal postural support in a wheelchair",
+                    "The client has adequate postural control at the trunk level",
+                    "The client can independently propel a manual wheelchair",
+                    "The client does not require lateral trunk supports"
+                ],
+                correct: 1,
+                explanation: "Sitting hands-free on a mat indicates the client has postural control and trunk stability without upper extremity support. This is critical information for seating system design. However, this doesn't automatically mean they need minimal support in a wheelchair (A) as dynamic activities require different support. It doesn't predict propulsion ability (C) or eliminate the need for lateral supports (D)."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "A consumer with tactile hypersensitivity is being evaluated for switch access. Which switch characteristic should be prioritized?",
+                options: [
+                    "Large activation surface",
+                    "Auditory feedback",
+                    "Light activation force",
+                    "Visual feedback"
+                ],
+                correct: 2,
+                explanation: "Light activation force minimizes the tactile input required to activate the switch, reducing discomfort for individuals with tactile hypersensitivity. While auditory (B) and visual (D) feedback are helpful, they don't address the tactile sensitivity issue. A large surface (A) may actually increase unwanted tactile input."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "When using a range and resolution board to assess control site potential, the professional is determining:",
+                options: [
+                    "Maximum reach distance and ability to isolate targets",
+                    "Strength and endurance for sustained activation",
+                    "Speed and accuracy of movement",
+                    "Joint stability and range of motion"
+                ],
+                correct: 0,
+                explanation: "Range and resolution boards specifically assess two key factors: range (how far the person can reach/move) and resolution (how precisely they can hit specific targets within that range). This data informs access method selection. While strength/endurance (B), speed/accuracy (C), and ROM (D) are important, they're not what range and resolution boards measure."
+            },
+{
+                category: "Professional Conduct",
+                question: "The RESNA Code of Ethics differs from the Standards of Practice primarily in that:",
+                options: [
+                    "The Code of Ethics is broader in scope than the Standards of Practice",
+                    "The Standards of Practice is specific to AT field, while the Code is not",
+                    "The Code lists moral conduct principles, while the Standards give specific practice rules",
+                    "The Code is general, while the Standards outline quality assurance programs"
+                ],
+                correct: 2,
+                explanation: "The Code of Ethics provides overarching principles of moral conduct (beneficence, non-maleficence, justice, etc.) that guide professional behavior. The Standards of Practice translates these ethical principles into specific, actionable rules and expectations for AT service delivery. Both are AT-specific (B is incorrect), and option D oversimplifies the Standards."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "For individuals with high-level spinal cord injury (C4-C5), which robotic system would be MOST appropriate for feeding?",
+                options: [
+                    "Wheelchair-mounted robotic arm",
+                    "Desktop Vocational Assistant Robot",
+                    "Electromechanical feeder",
+                    "Modified car controls for driving"
+                ],
+                correct: 2,
+                explanation: "An electromechanical feeder is specifically designed for eating tasks and can be operated with minimal motor control (head control, chin control, or sip-and-puff). Wheelchair-mounted robotic arms (A) require more complex control. The Desktop Vocational Assistant Robot (B) is for work tasks. Modified car controls (D) are not safe or appropriate for high-level SCI."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "A consumer reports that their EADL system successfully controls lights and TV but cannot operate their garage door opener. The most likely explanation is:",
+                options: [
+                    "The garage door opener requires radio frequency transmission",
+                    "The garage door opener is out of the infrared line of sight",
+                    "The system's ultrasonic waves cannot reach the garage",
+                    "The house wiring doesn't extend to the garage"
+                ],
+                correct: 0,
+                explanation: "Garage door openers typically use radio frequency (RF) transmission because they're often distant from the main living area and require signal penetration through walls. If the EADL uses infrared (most common for TV/lights), it won't work with RF devices. Infrared requires line of sight (B) but that's not the primary issue here."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "Which of the following is NOT considered part of a general input device-emulating interface (GIDEI)?",
+                options: [
+                    "Written instructional manual",
+                    "Input method",
+                    "Overlay with selection set and feedback",
+                    "Options such as macros and predictive entries"
+                ],
+                correct: 0,
+                explanation: "GIDEI consists of three components: (1) input method, (2) overlay with selection set and feedback, and (3) options like macros and abbreviations. A written manual is supporting documentation, not part of the actual interface itself."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "For a person with scoliosis, pads should be placed at three points to reduce effects. Which location is NOT appropriate?",
+                options: [
+                    "Facing the convex side apex of the abnormal curvature",
+                    "On the headrest",
+                    "On the concave side of the curvature under the pelvis",
+                    "On the concave side of the curvature under the armpit"
+                ],
+                correct: 1,
+                explanation: "Three-point pressure systems for scoliosis include pads at: (1) the apex of the convex curve, (2) the concave side under the pelvis, and (3) the concave side under the armpit/thorax. While a headrest may be part of the overall seating system, it doesn't provide the three-point corrective forces needed for scoliosis management."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "Which type of ramp is BEST for a tenant with a short-term rental lease who needs independent access with a 32-inch vertical rise?",
+                options: [
+                    "Modular ramp system",
+                    "Threshold ramp",
+                    "Portable folding ramp",
+                    "Perforated aluminum ramp"
+                ],
+                correct: 0,
+                explanation: "A modular ramp system is ideal for this situation because it's semi-permanent, can be disassembled and moved, accommodates the significant 32-inch rise (requiring switchbacks), and is appropriate for daily use. Threshold ramps (B) are for much smaller rises. Portable ramps (C) aren't safe for this height used independently. Perforated aluminum (D) is a material, not a ramp type."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "According to evidence-based practice principles, when research evidence is lacking in an area, the ATP should primarily rely on:",
+                options: [
+                    "Manufacturer recommendations only",
+                    "Expert opinion and scientific principles",
+                    "Trial and error with the consumer",
+                    "The most expensive technology available"
+                ],
+                correct: 1,
+                explanation: "Evidence-based practice integrates research evidence, clinical expertise, and client values. When research is lacking, clinicians must rely on expert opinion and scientific principles while incorporating new research as it emerges. This is the hierarchy of evidence when empirical research is unavailable."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "Which of the following would NOT be considered a stimulus control device?",
+                options: [
+                    "Noise reduction device",
+                    "Prism glasses",
+                    "Prompting device or software package",
+                    "Website free of pop-up ads"
+                ],
+                correct: 2,
+                explanation: "Stimulus control devices reduce or modify environmental stimuli (sensory input). Noise reduction (A), prism glasses (B), and distraction-free websites (D) all control or filter stimuli. Prompting devices provide cues to initiate or complete tasks—they add stimuli rather than control environmental input."
+            },
+{
+                category: "Implementation of Intervention",
+                question: "For wheelchair maintenance, which components should be checked WEEKLY?",
+                options: [
+                    "Tire pressure, wheel locks, electrical system function, upholstery cleanliness",
+                    "Tire and caster integrity, wheel lock interference, battery cases, upholstery stretching",
+                    "Axles, spokes, electrical wires, motor condition",
+                    "All of the above"
+                ],
+                correct: 0,
+                explanation: "Weekly maintenance includes tire pressure, wheel lock function, general drag or pull, caster condition/alignment, electrical system performance, and upholstery cleanliness. More detailed inspections like tire integrity (B), structural components (C) are done less frequently. The correct answer reflects the appropriate weekly maintenance schedule."
+            },
+{
+                category: "Implementation of Intervention",
+                question: "A consumer with decreased skin temperature at pressure points is at increased risk for:",
+                options: [
+                    "Muscle spasticity",
+                    "Pressure injury development",
+                    "Tactile sensitivity",
+                    "Autonomic dysreflexia"
+                ],
+                correct: 1,
+                explanation: "Decreased skin temperature indicates reduced blood flow to the area, which means reduced oxygen and nutrient delivery. This significantly increases pressure injury risk because tissue cannot maintain integrity without adequate perfusion. This is a critical warning sign requiring immediate repositioning or equipment adjustment."
+            },
+{
+                category: "Implementation of Intervention",
+                question: "The primary role of a supplier in AAC device delivery is to:",
+                options: [
+                    "Train the consumer in communication strategies using the device",
+                    "Provide operational instructions for the device",
+                    "Train the consumer in troubleshooting techniques",
+                    "Program the device with vocabulary"
+                ],
+                correct: 1,
+                explanation: "The supplier's primary role is providing operational instructions—how to turn on/off, basic functions, adjustment, maintenance, and troubleshooting. Communication strategy training (A) and programming (D) are typically the SLP or ATP's role. While suppliers may provide troubleshooting guidance (C), basic operational instruction is the primary responsibility."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "Extensive resources have been used over three years to provide a computer to a child with multiple disabilities. Parents want to try new software they saw online. The appropriate next step is:",
+                options: [
+                    "Change to the new software and initiate training",
+                    "Recommend continued training with existing technology",
+                    "Discuss whether the parents' goals are realistic given the child's abilities",
+                    "Develop measurable outcomes for a trial with the new technology"
+                ],
+                correct: 3,
+                explanation: "Best practice requires developing measurable outcomes before any trial to determine if the new technology truly improves function. This ensures evidence-based decision-making rather than technology-driven choices. Simply switching (A) wastes resources, maintaining current technology (B) dismisses valid concerns, and questioning realistic goals (C) is presumptuous without data."
+            },
+{
+                category: "Implementation of Intervention",
+                question: "During the fitting stage of assistive device implementation, which activity is MOST appropriate?",
+                options: [
+                    "Physical fitting of the device to the person",
+                    "System installation in the person's environment",
+                    "Ongoing assessment during adjustment",
+                    "All of the above"
+                ],
+                correct: 3,
+                explanation: "The fitting stage encompasses all these activities: physical fitting to the person, installation of the system, and ongoing assessment as adjustments are made. This is an iterative process where the ATP continuously evaluates and modifies until optimal fit and function are achieved."
+            },
+{
+                category: "Professional Conduct",
+                question: "Operational competence training by the ATP for a consumer receiving an assistive device includes:",
+                options: [
+                    "Training in strategies for using and applying the system",
+                    "Performance aids such as step-by-step instructions",
+                    "Instructions on turning on/off, basic functions, adjustment, maintenance, and troubleshooting",
+                    "Written instructions in manuals and computer software"
+                ],
+                correct: 2,
+                explanation: "Operational competence focuses on the mechanics of device operation—how to turn it on/off, perform basic functions, adjust settings, maintain, and troubleshoot. Strategic competence (A) involves application strategies. Performance aids (B) and written materials (D) are training supports, not the training itself."
+            },
+{
+                category: "Evaluation of Intervention",
+                question: "A consumer is not consistently using a prescribed fall-prevention device at work. The employer reports the device doesn't fit through doorways. The BEST course of action is:",
+                options: [
+                    "Provide more training on device use",
+                    "Document non-compliance and close the case",
+                    "Evaluate the device in the actual work environment",
+                    "Recommend the consumer find different employment"
+                ],
+                correct: 2,
+                explanation: "Environmental barriers must be assessed in the actual context. The device may have worked in the clinic but fails in the real environment. Re-evaluation in situ allows identification of barriers and appropriate modifications. More training (A) won't solve an environmental barrier. Options B and D abandon the consumer inappropriately."
+            },
+{
+                category: "Implementation of Intervention",
+                question: "Manufacturers of commercially available AT products are responsible for:",
+                options: [
+                    "Product defects and warranty",
+                    "Failures from wear and use",
+                    "Personal injury when used improperly",
+                    "Product use through the user's lifetime"
+                ],
+                correct: 0,
+                explanation: "Manufacturers are responsible for product defects and honoring warranty terms. They're not responsible for normal wear and tear (B), misuse (C), or lifetime support (D). Understanding these limits is important for setting consumer expectations and planning for device replacement."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "When funding is identified during service delivery, at which stage should it FIRST be secured?",
+                options: [
+                    "Referral and intake",
+                    "Initial evaluation and recommendations",
+                    "Implementation phase",
+                    "Follow-up and follow-along"
+                ],
+                correct: 0,
+                explanation: "Funding sources should be identified and secured during referral and intake to avoid wasting time on evaluations and recommendations for technology that cannot be funded. Funding should be revisited at each subsequent stage, but initial identification is critical at intake."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "The MOST appropriate method for evaluating assistive technology device trial results is:",
+                options: [
+                    "Consumer satisfaction survey",
+                    "Standardized outcome measure",
+                    "Skilled clinical observation",
+                    "Activity monitoring data"
+                ],
+                correct: 1,
+                explanation: "Standardized outcome measures provide objective, quantifiable data about functional performance changes that can be compared over time and across individuals. They provide evidence for effectiveness and funding justification. While satisfaction (A), observation (C), and monitoring (D) are valuable, outcome measures are the gold standard."
+            },
+{
+                category: "Evaluation of Intervention",
+                question: "According to RESNA Standards of Practice, follow-up after device delivery should occur:",
+                options: [
+                    "Only if the consumer reports problems",
+                    "At regularly scheduled intervals based on consumer needs",
+                    "Only when warranty expires",
+                    "Only when funding source requires it"
+                ],
+                correct: 1,
+                explanation: "RESNA Standards require proactive follow-up at intervals appropriate to the consumer's needs, not just reactive problem-solving. This ensures devices continue to meet needs as function changes, prevents abandonment, and identifies problems early. Following only funding requirements (D) or warranties (C) is insufficient."
+            },
+{
+                category: "Evaluation of Intervention",
+                question: "Changes in which of the following would MOST likely necessitate AAC system reassessment?",
+                options: [
+                    "Consumer's hair color",
+                    "Consumer's communication partners",
+                    "Building accessibility features",
+                    "Brand of clothing worn"
+                ],
+                correct: 1,
+                explanation: "Changes in communication partners significantly impact AAC needs—different partners may require different vocabulary, message complexity, or communication strategies. Hair color (A), building features (C), and clothing (D) don't directly affect communication needs or system functionality."
+            },
+{
+                category: "Implementation of Intervention",
+                question: "A consumer reports their power wheelchair feels 'sluggish.' The FIRST troubleshooting step should be:",
+                options: [
+                    "Replace the joystick",
+                    "Check battery charge level",
+                    "Adjust speed settings",
+                    "Contact the manufacturer"
+                ],
+                correct: 1,
+                explanation: "Always start with the simplest, most common cause: battery charge. Low batteries are the most frequent cause of sluggish performance and the easiest to check. Only after ruling out simple causes should you progress to more complex troubleshooting like component replacement (A), settings (C), or manufacturer contact (D)."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "Information about technical standards for assistive devices can be found through:",
+                options: [
+                    "RESNA technical standards committees only",
+                    "FDA website only",
+                    "Both RESNA committees and FDA resources",
+                    "State AT Act programs"
+                ],
+                correct: 2,
+                explanation: "Multiple sources provide technical standards information. RESNA technical standards committees develop AT-specific standards, while the FDA manages medical device information including recalls and safety standards. RESNA is also accredited by ANSI and works with ISO on international standards. Using multiple sources ensures comprehensive information."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "The official journal of RESNA, which publishes evidence-based AT research, is:",
+                options: [
+                    "Augmentative and Alternative Communication",
+                    "Assistive Technology Outcomes & Benefits",
+                    "Assistive Technology",
+                    "Journal of Rehabilitation Research"
+                ],
+                correct: 2,
+                explanation: "Assistive Technology is RESNA's official journal. Augmentative and Alternative Communication (A) is published by ISAAC. Assistive Technology Outcomes & Benefits (B) is published by ATIA. Understanding professional literature sources is essential for evidence-based practice."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "Which organization accredits rehabilitation facilities and includes standards for AT services?",
+                options: [
+                    "RESNA",
+                    "NRRTS",
+                    "CARF",
+                    "ATIA"
+                ],
+                correct: 2,
+                explanation: "CARF (Commission on Accreditation of Rehabilitation Facilities) accredits organizations based on quality of service and includes AT service standards. RESNA (A) certifies practitioners and suppliers. NRRTS (B) is a supplier registry. ATIA (D) is a membership organization for AT industry."
+            },
+{
+                category: "Professional Conduct",
+                question: "According to the RESNA Code of Ethics, members must avoid technology that:",
+                options: [
+                    "Is more expensive than alternatives",
+                    "Exposes the consumer to unreasonable risks",
+                    "Requires training for effective use",
+                    "Is manufactured outside the United States"
+                ],
+                correct: 1,
+                explanation: "The RESNA Code of Ethics specifically requires avoiding technology that exposes consumers to unreasonable risks. Cost (A), training requirements (C), and manufacturing location (D) are not ethical prohibitions. Safety is paramount in ethical practice."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "Which professional organization specifically focuses on augmentative and alternative communication?",
+                options: [
+                    "RESNA",
+                    "ATIA",
+                    "ISAAC (International Society for Augmentative and Alternative Communication)",
+                    "Closing the Gap"
+                ],
+                correct: 2,
+                explanation: "ISAAC (International Society for Augmentative and Alternative Communication) publishes the journal Augmentative and Alternative Communication and specifically promotes AAC research and practice through conferences and professional development. While RESNA (A) covers AAC, it's not AAC-specific. ATIA (B) and Closing the Gap (D) cover broader AT."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "When evaluating control sites for switch access, the professional should assess:",
+                options: [
+                    "Only the most obviously functional body parts",
+                    "All potential sites systematically",
+                    "Only traditional access sites (hand, foot, head)",
+                    "Only sites the consumer suggests"
+                ],
+                correct: 1,
+                explanation: "Comprehensive assessment requires systematic evaluation of ALL potential control sites (head, neck, shoulder, arm, hand, fingers, trunk, legs, feet, etc.). Limiting assessment to obvious sites (A), traditional sites (C), or consumer suggestions (D) may miss optimal access points, especially in clients with limited movement options."
+            },
+{
+                category: "Implementation of Intervention",
+                question: "A consumer presents with visual field loss. To optimize computer access, the monitor should be positioned:",
+                options: [
+                    "At arm's length distance",
+                    "Within the intact visual field",
+                    "At maximum brightness",
+                    "With increased font size"
+                ],
+                correct: 1,
+                explanation: "Positioning the monitor within the intact visual field maximizes use of remaining vision. While distance (A), brightness (C), and font size (D) are important, they don't address the fundamental issue of visual field loss. Positioning is primary; other modifications are secondary."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "The Human Activity Assistive Technology (HAAT) model ensures that the focus of AT service delivery is on:",
+                options: [
+                    "The latest technology available",
+                    "The most cost-effective solution",
+                    "The individual rather than the technology",
+                    "The funding source requirements"
+                ],
+                correct: 2,
+                explanation: "The HAAT model (and SETT framework) are person-centered models that ensure the individual's activities, goals, and context—not the technology—drive the assessment and recommendation process. Technology is the tool to support human activity, not the focus itself."
+            },
+{
+                category: "Assessment of Need",
+                question: "For individuals with progressive conditions like ALS or Duchenne muscular dystrophy, AT assessment should prioritize:",
+                options: [
+                    "Current function only",
+                    "Anticipated future needs",
+                    "Both current and future needs",
+                    "Technology that is easiest to learn"
+                ],
+                correct: 2,
+                explanation: "With progressive conditions, assessment must address both current function AND anticipated future needs to avoid frequent equipment changes. This includes selecting systems expandable to accommodate declining function, planning access method transitions, and ensuring interfaces work across multiple systems (mobility, communication, computer, EADL)."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "The Americans with Disabilities Act requires that workplace accommodations be:",
+                options: [
+                    "The most expensive technology available",
+                    "Provided only if they cost less than $1000",
+                    "Reasonable and do not cause undue hardship",
+                    "The same for all employees with similar disabilities"
+                ],
+                correct: 2,
+                explanation: "The ADA requires reasonable accommodations that don't cause undue hardship to the employer. There's no specific cost limit (B), most expensive isn't required (A), and accommodations must be individualized (D) based on the person's specific job and functional needs."
+            },
+{
+                category: "Assessment of Need",
+                question: "When recommending a seating system for an individual with fixed pelvic obliquity, the MOST important consideration is:",
+                options: [
+                    "Forcing the pelvis to neutral alignment",
+                    "Accommodating the obliquity while maintaining stability",
+                    "Using maximum lateral trunk supports",
+                    "Recommending only power recline systems"
+                ],
+                correct: 1,
+                explanation: "Fixed deformities cannot and should not be forcibly corrected (A). The seating system must accommodate the deformity while providing stability and pressure distribution. Forcing correction causes pain, pressure injuries, and internal organ compression. Lateral supports (C) and recline (D) may be helpful but aren't the primary consideration."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "For a consumer using text-to-speech software, which has the GREATEST impact on comprehension?",
+                options: [
+                    "Speech rate",
+                    "Voice gender",
+                    "Font size on screen",
+                    "Background color"
+                ],
+                correct: 0,
+                explanation: "Speech rate dramatically affects comprehension. Too fast exceeds processing ability; too slow causes attention drift. The optimal rate varies by individual based on cognitive processing, auditory processing, and language skills. Voice gender (B), font size (C), and background color (D) affect user preference and visual access but not auditory comprehension."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "State Tech Act programs provide:",
+                options: [
+                    "Direct funding for all AT devices",
+                    "AT information, demonstration, and device loan services",
+                    "Only AT services for children",
+                    "AT only for individuals with severe disabilities"
+                ],
+                correct: 1,
+                explanation: "State Tech Act programs (under the Assistive Technology Act) provide information and assistance, device demonstrations, device loans, and device reutilization programs. They don't typically provide direct funding for individual purchases (A) and serve people of all ages (C) and disability levels (D)."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "For an individual who is blind, which environmental control system would be MOST appropriate?",
+                options: [
+                    "Touch screen based EADL",
+                    "Voice-activated smart home system",
+                    "Standard infrared remote control",
+                    "Color-coded switch system"
+                ],
+                correct: 1,
+                explanation: "Voice-activated systems provide non-visual access to environmental controls. Touch screens (A), standard remotes (C), and color-coded switches (D) all require vision to locate controls and navigate interfaces. Voice activation provides independent, accessible control without vision."
+            },
+{
+                category: "Evaluation of Intervention",
+                question: "Which literacy skill is MOST foundational for successful use of spelling-based AAC systems?",
+                options: [
+                    "Reading comprehension",
+                    "Phonological awareness",
+                    "Creative writing",
+                    "Grammar knowledge"
+                ],
+                correct: 1,
+                explanation: "Phonological awareness (understanding sound-letter relationships) is foundational for spelling-based AAC. Without it, the individual cannot generate novel messages through spelling. Reading comprehension (A), creative writing (C), and grammar (D) support higher-level communication but phonological awareness is the prerequisite skill."
+            },
+{
+                category: "Professional Conduct",
+                question: "Strategic competence in AT use refers to:",
+                options: [
+                    "Knowing how to turn the device on and off",
+                    "Understanding warranty coverage",
+                    "Knowing when and how to apply the technology to accomplish goals",
+                    "Ability to program the device independently"
+                ],
+                correct: 2,
+                explanation: "Strategic competence involves knowing when to use the technology, how to apply it effectively in different situations, and problem-solving when challenges arise. This is distinct from operational competence (A, D) which is about device mechanics, or knowledge about the device (B)."
+            },
+{
+                category: "Implementation of Intervention",
+                question: "When training a new AAC user, the professional should:",
+                options: [
+                    "Require mastery of all device features before real-world use",
+                    "Focus on functional communication in natural contexts immediately",
+                    "Complete training in a quiet therapy room only",
+                    "Provide written manuals for independent study"
+                ],
+                correct: 1,
+                explanation: "AAC training should prioritize functional communication in natural contexts from the start. Delaying real-world use (A) postpones meaningful communication. Training only in therapy rooms (C) doesn't build generalization. Written manuals (D) supplement but can't replace contextual training, especially for individuals with literacy challenges."
+            },
+{
+                category: "Evaluation of Intervention",
+                question: "Device abandonment is MOST likely when:",
+                options: [
+                    "The device is difficult to transport",
+                    "The device doesn't meet prioritized consumer goals",
+                    "The device requires daily charging",
+                    "The device is brightly colored"
+                ],
+                correct: 1,
+                explanation: "Device abandonment most often occurs when the technology doesn't meet the consumer's prioritized needs and goals. If the device doesn't help them do what matters to them, it won't be used regardless of other factors. Portability (A) and charging (C) are practical issues but secondary. Color (D) is cosmetic unless the person has strong preferences."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "According to best practices, how many backup communication methods should an AAC user have?",
+                options: [
+                    "None—the primary system should be sufficient",
+                    "At least one low-tech backup",
+                    "One backup per communication environment",
+                    "As many as the funding source will cover"
+                ],
+                correct: 1,
+                explanation: "All AAC users should have at least one low-tech backup system (communication board, book, or cards) for when technology fails, batteries die, or the device is unavailable. This ensures continuous communication access. Having no backup (A) is dangerous; multiple backups per environment (C) is excessive; funding (D) shouldn't determine safety planning."
+            },
+{
+                category: "Implementation of Intervention",
+                question: "When providing AT services in a school setting, the ATP should primarily ensure the technology supports:",
+                options: [
+                    "The specific brand preferences of the district",
+                    "Progress toward IEP goals",
+                    "The teacher's instructional style",
+                    "The school's existing technology infrastructure"
+                ],
+                correct: 1,
+                explanation: "In educational settings, AT must support the student's IEP goals—this is legally required. While compatibility with infrastructure (D) and teaching style (C) are practical considerations, and district preferences (A) may affect procurement, the student's IEP goals are legally and ethically the priority."
+            },
+{
+                category: "Professional Conduct",
+                question: "The PSYCHOSOCIAL IMPACT OF ASSISTIVE TECHNOLOGY DEVICE SCALE (PIADS) primarily measures:",
+                options: [
+                    "Device reliability and durability",
+                    "Cost-effectiveness of the intervention",
+                    "User's perceived quality of life changes",
+                    "Accuracy of device operation"
+                ],
+                correct: 2,
+                explanation: "The PIADS measures the impact of AT on quality of life across three domains: competence, adaptability, and self-esteem. It assesses psychosocial outcomes, not technical specifications (A, D) or economics (B). This helps determine if technology truly improves life experience beyond functional tasks."
+            },
+{
+                category: "Evaluation of Intervention",
+                question: "If a consumer is not using their prescribed AT device, the professional should FIRST:",
+                options: [
+                    "Document non-compliance and close the case",
+                    "Investigate reasons for non-use through interview and observation",
+                    "Recommend a different device immediately",
+                    "Report non-compliance to the funding source"
+                ],
+                correct: 1,
+                explanation: "Understanding WHY the device isn't being used is essential. Reasons might include: device doesn't meet needs, environmental barriers, lack of training, breakdown, or changing needs. Only after investigating can appropriate action be taken. Closing the case (A), switching devices (C), or reporting (D) without investigation abandons the consumer."
+            },
+{
+                category: "Evaluation of Intervention",
+                question: "Long-term follow-up for AT services is particularly critical for:",
+                options: [
+                    "Adults with stable disabilities",
+                    "Children with developmental disabilities",
+                    "Adults with static injuries",
+                    "Individuals using low-tech devices only"
+                ],
+                correct: 1,
+                explanation: "Children require ongoing follow-up because they're growing physically, developing cognitively, and changing educationally. AT needs change as they grow, develop new skills, and face new academic demands. Adults with stable conditions (A, C) need less frequent follow-up. Device complexity (D) doesn't determine follow-up need as much as changing user characteristics do."
+            },
+{
+                category: "Development of Intervention Strategies",
+                question: "Estimated out-of-pocket AT device purchases by consumers range from:",
+                options: [
+                    "5-10%",
+                    "20-30%",
+                    "48-75%",
+                    "85-95%"
+                ],
+                correct: 2,
+                explanation: "Surveys suggest 48-75% of AT devices, including medically necessary devices, are paid out-of-pocket. This highlights significant funding gaps and the importance of helping consumers navigate funding options and advocating for policy changes to improve funding access."
+            },
+{
+                category: "Professional Conduct",
+                question: "When a conflict of interest arises between a professional's employer and a consumer's best interests, the RESNA Code of Ethics requires:",
+                options: [
+                    "Prioritizing the employer's interests",
+                    "Prioritizing the consumer's interests",
+                    "Compromising between both interests equally",
+                    "Withdrawing from the case entirely"
+                ],
+                correct: 1,
+                explanation: "The RESNA Code of Ethics is clear: the consumer's interests are paramount. When conflicts arise, professionals must advocate for the consumer's needs even if this creates tension with employers. Ethical practice requires transparency about conflicts and prioritization of consumer welfare."
+            },
+{
+                category: "Professional Conduct",
+                question: "Continuing education for ATPs can be obtained through all of the following EXCEPT:",
+                options: [
+                    "RESNA webinars and conferences",
+                    "ATIA professional development opportunities",
+                    "State AT Act program trainings",
+                    "General consumer product catalogs"
+                ],
+                correct: 3,
+                explanation: "Professional continuing education comes from RESNA, ATIA, Closing the Gap, state AT programs, professional journals, and university courses. Consumer product catalogs (D) provide product information but not professional education on assessment, best practices, ethics, or evidence-based practice."
+            }
+        ];
+
+        // Quiz State
+        let currentQuestion = 0;
+        let score = 0;
+        let attempted = 0;
+        let userAnswers = [];
+        let answeredQuestions = new Set();
+        let activeQuestionBank = [];
+        let selectedCategories = new Set();
+        let incorrectQuestions = [];
+
+        // Initialize App
+        function initApp() {
+            document.getElementById('startScreen').style.display = 'block';
+            document.getElementById('categorySelection').style.display = 'none';
+            document.getElementById('categorySelection').classList.remove('show');
+            document.getElementById('quizArea').style.display = 'none';
+            document.querySelector('.progress-container').style.display = 'none';
+        }
+
+        // Start with all questions
+        function startAllQuestions() {
+            activeQuestionBank = [...questionBank];
+            startQuiz();
+        }
+
+        // Show category selection
+        function showCategorySelection() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('categorySelection').style.display = 'block';
+            document.getElementById('categorySelection').classList.add('show');
+            
+            // Get unique categories and count questions
+            const categoryMap = new Map();
+            questionBank.forEach(q => {
+                if (!categoryMap.has(q.category)) {
+                    categoryMap.set(q.category, 0);
+                }
+                categoryMap.set(q.category, categoryMap.get(q.category) + 1);
+            });
+
+            // Create category selection UI
+            const categoryGrid = document.getElementById('categoryGrid');
+            categoryGrid.innerHTML = Array.from(categoryMap.entries()).map(([category, count], index) => `
+                <div class="category-option" data-category="${category}" id="cat-${index}">
+                    <div class="category-title">${category}</div>
+                    <div class="category-count">${count} questions</div>
+                </div>
+            `).join('');
+
+            // Add click event listeners after a short delay to ensure DOM is ready
+            setTimeout(() => {
+                document.querySelectorAll('.category-option').forEach(option => {
+                    option.addEventListener('click', function() {
+                        toggleCategory(this);
+                    });
+                });
+            }, 100);
+        }
+
+        // Toggle category selection
+        function toggleCategory(element) {
+            const category = element.getAttribute('data-category');
+            
+            if (selectedCategories.has(category)) {
+                selectedCategories.delete(category);
+                element.classList.remove('selected');
+            } else {
+                selectedCategories.add(category);
+                element.classList.add('selected');
+            }
+            
+            console.log('Selected categories:', Array.from(selectedCategories));
+        }
+
+        // Start quiz with selected categories
+        function startSelectedCategories() {
+            if (selectedCategories.size === 0) {
+                alert('Please select at least one category');
+                return;
+            }
+            
+            activeQuestionBank = questionBank.filter(q => selectedCategories.has(q.category));
+            startQuiz();
+        }
+
+        // Back to start screen
+        function backToStart() {
+            selectedCategories.clear();
+            document.getElementById('categorySelection').style.display = 'none';
+            document.getElementById('categorySelection').classList.remove('show');
+            document.getElementById('startScreen').style.display = 'block';
+        }
+
+        // Start Quiz
+        function startQuiz() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('categorySelection').style.display = 'none';
+            document.getElementById('categorySelection').classList.remove('show');
+            document.querySelector('.progress-container').style.display = 'block';
+            document.getElementById('quizArea').style.display = 'block';
+            
+            currentQuestion = 0;
+            score = 0;
+            attempted = 0;
+            userAnswers = [];
+            answeredQuestions = new Set();
+            incorrectQuestions = [];
+            
+            renderQuestion();
+            updateProgress();
+        }
+
+        // Initialize Quiz
+        function initQuiz() {
+            renderQuestion();
+            updateProgress();
+        }
+
+        // Render Current Question
+        function renderQuestion() {
+            const q = activeQuestionBank[currentQuestion];
+            const quizArea = document.getElementById('quizArea');
+            
+            const optionLetters = ['A', 'B', 'C', 'D'];
+            
+            quizArea.innerHTML = `
+                <div class="question-card">
+                    <div class="question-header">
+                        <div class="question-number">Question ${currentQuestion + 1}</div>
+                        <div class="category-badge">${q.category}</div>
+                    </div>
+                    <div class="question-text">${q.question}</div>
+                    <div class="options" id="options">
+                        ${q.options.map((opt, idx) => `
+                            <div class="option" onclick="selectOption(${idx})">
+                                <span class="option-letter">${optionLetters[idx]}</span>
+                                <span>${opt}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="explanation" id="explanation">
+                        <div class="explanation-title">📚 Explanation:</div>
+                        <div>${q.explanation}</div>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <button class="btn-secondary" onclick="previousQuestion()" ${currentQuestion === 0 ? 'disabled' : ''}>
+                        ← Previous
+                    </button>
+                    <button class="btn-primary" id="submitBtn" onclick="submitAnswer()" disabled>
+                        Submit Answer
+                    </button>
+                    <button class="btn-primary" id="nextBtn" onclick="nextQuestion()" style="display: none;">
+                        Next →
+                    </button>
+                    <button class="btn-primary" id="finishBtn" onclick="showResults()" style="display: none;">
+                        Finish Quiz
+                    </button>
+                </div>
+            `;
+
+            // Restore previous answer if exists
+            if (userAnswers[currentQuestion] !== undefined) {
+                showAnswer(userAnswers[currentQuestion]);
+            }
+        }
+
+        // Select Option
+        function selectOption(idx) {
+            if (answeredQuestions.has(currentQuestion)) return;
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            options[idx].classList.add('selected');
+            
+            document.getElementById('submitBtn').disabled = false;
+        }
+
+        // Submit Answer
+        function submitAnswer() {
+            if (answeredQuestions.has(currentQuestion)) return;
+            
+            const selectedOption = document.querySelector('.option.selected');
+            if (!selectedOption) return;
+            
+            const selectedIndex = Array.from(document.querySelectorAll('.option')).indexOf(selectedOption);
+            const q = activeQuestionBank[currentQuestion];
+            
+            userAnswers[currentQuestion] = selectedIndex;
+            answeredQuestions.add(currentQuestion);
+            attempted++;
+            
+            if (selectedIndex === q.correct) {
+                score++;
+            } else {
+                incorrectQuestions.push(currentQuestion);
+            }
+            
+            showAnswer(selectedIndex);
+            updateProgress();
+        }
+
+        // Show Answer and Explanation
+        function showAnswer(selectedIndex) {
+            const q = activeQuestionBank[currentQuestion];
+            const options = document.querySelectorAll('.option');
+            
+            options.forEach((opt, idx) => {
+                opt.style.pointerEvents = 'none';
+                if (idx === q.correct) {
+                    opt.classList.add('correct');
+                } else if (idx === selectedIndex && selectedIndex !== q.correct) {
+                    opt.classList.add('incorrect');
+                }
+            });
+            
+            document.getElementById('explanation').classList.add('show');
+            document.getElementById('submitBtn').style.display = 'none';
+            
+            if (currentQuestion < activeQuestionBank.length - 1) {
+                document.getElementById('nextBtn').style.display = 'inline-block';
+            } else {
+                document.getElementById('finishBtn').style.display = 'inline-block';
+            }
+        }
+
+        // Next Question
+        function nextQuestion() {
+            if (currentQuestion < activeQuestionBank.length - 1) {
+                currentQuestion++;
+                renderQuestion();
+                updateProgress();
+            }
+        }
+
+        // Previous Question
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+                updateProgress();
+            }
+        }
+
+        // Update Progress
+        function updateProgress() {
+            const progress = ((attempted / activeQuestionBank.length) * 100).toFixed(0);
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressFill').textContent = progress + '%';
+            document.getElementById('currentQ').textContent = currentQuestion + 1;
+            document.getElementById('totalQ').textContent = activeQuestionBank.length;
+            document.getElementById('score').textContent = score;
+            document.getElementById('attempted').textContent = attempted;
+        }
+
+        // Show Results
+        function showResults() {
+            const percentage = Math.round((score / activeQuestionBank.length) * 100);
+            const quizArea = document.getElementById('quizArea');
+            const results = document.getElementById('results');
+            
+            let message = '';
+            if (percentage >= 80) {
+                message = '🎉 Excellent! You\'re well-prepared for the ATP exam!';
+            } else if (percentage >= 70) {
+                message = '👍 Good job! Review the areas you missed and you\'ll be ready.';
+            } else if (percentage >= 60) {
+                message = '📚 Keep studying! Focus on your weaker areas.';
+            } else {
+                message = '💪 More practice needed. Review the content and try again!';
+            }
+            
+            // Calculate category breakdown
+            const categoryStats = {};
+            activeQuestionBank.forEach((q, idx) => {
+                if (!categoryStats[q.category]) {
+                    categoryStats[q.category] = { correct: 0, total: 0 };
+                }
+                categoryStats[q.category].total++;
+                if (userAnswers[idx] === q.correct) {
+                    categoryStats[q.category].correct++;
+                }
+            });
+            
+            const categoryHTML = Object.entries(categoryStats).map(([cat, stats]) => `
+                <div class="breakdown-item">
+                    <div class="breakdown-label">${cat}</div>
+                    <div class="breakdown-value">${stats.correct}/${stats.total} (${Math.round(stats.correct/stats.total*100)}%)</div>
+                </div>
+            `).join('');
+            
+            const incorrectButtonHTML = incorrectQuestions.length > 0 
+                ? `<button class="btn-primary" onclick="reviewIncorrect()">Review Incorrect (${incorrectQuestions.length})</button>`
+                : '';
+            
+            quizArea.style.display = 'none';
+            results.innerHTML = `
+                <div class="score-circle">
+                    <div class="score-number">${percentage}%</div>
+                    <div class="score-label">${score} / ${activeQuestionBank.length}</div>
+                </div>
+                <h2>${message}</h2>
+                <p style="color: #666; margin-bottom: 30px;">You answered ${score} out of ${activeQuestionBank.length} questions correctly</p>
+                
+                <div class="results-breakdown">
+                    <h3 style="grid-column: 1/-1; text-align: left; margin-bottom: 10px;">Performance by Category:</h3>
+                    ${categoryHTML}
+                </div>
+                
+                <div class="button-container">
+                    <button class="btn-primary" onclick="reviewAnswers()">Review All Answers</button>
+                    ${incorrectButtonHTML}
+                    <button class="btn-secondary" onclick="restartQuiz()">New Quiz</button>
+                </div>
+            `;
+            results.classList.add('show');
+        }
+
+        // Review Answers
+        function reviewAnswers() {
+            currentQuestion = 0;
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('quizArea').style.display = 'block';
+            renderQuestion();
+        }
+
+        // Review Incorrect Answers
+        function reviewIncorrect() {
+            if (incorrectQuestions.length === 0) {
+                alert('No incorrect answers to review!');
+                return;
+            }
+            
+            // Create a filtered question bank with only incorrect answers
+            const incorrectQuestionsData = incorrectQuestions.map(idx => activeQuestionBank[idx]);
+            const incorrectUserAnswers = incorrectQuestions.map(idx => userAnswers[idx]);
+            
+            // Store original state
+            const originalQuestionBank = activeQuestionBank;
+            const originalUserAnswers = userAnswers;
+            const originalAnsweredQuestions = answeredQuestions;
+            
+            // Set up review mode
+            activeQuestionBank = incorrectQuestionsData;
+            userAnswers = incorrectUserAnswers;
+            answeredQuestions = new Set(Array.from({length: incorrectQuestionsData.length}, (_, i) => i));
+            currentQuestion = 0;
+            
+            // Hide results, show quiz
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('quizArea').style.display = 'block';
+            document.querySelector('.progress-container').style.display = 'block';
+            
+            // Update progress display
+            updateProgress();
+            renderQuestion();
+        }
+
+        // Restart Quiz
+        function restartQuiz() {
+            document.getElementById('results').classList.remove('show');
+            document.querySelector('.progress-container').style.display = 'none';
+            document.getElementById('quizArea').style.display = 'none';
+            selectedCategories.clear();
+            initApp();
+        }
+
+        // Start Quiz on Page Load
+        window.onload = initApp;
+    </script>
+</body>
+</html>
